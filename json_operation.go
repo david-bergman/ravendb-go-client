@@ -48,13 +48,16 @@ func isJSONBoolEqual(oldPropVal bool, newProp interface{}) bool {
 	return false
 }
 
-func isJSONStringEqual(oldPropVal string, newProp interface{}) bool {
-	switch newPropVal := newProp.(type) {
+func isJSONStringEqual(newPropVal string, oldProp interface{}) bool {
+	switch oldPropVal := oldProp.(type) {
 	case string:
 		return oldPropVal == newPropVal
 	default:
 		// TODO: can those happen in real life?
-		panicIf(true, "unhandled type of newProp, expected 'string' and is '%T'", newProp)
+		if oldProp == nil {
+			return false
+		}
+		panicIf(true, "unhandled type of oldProp, expected 'string' and is '%T'", newProp)
 	}
 	return false
 }
